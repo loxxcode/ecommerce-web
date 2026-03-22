@@ -168,17 +168,6 @@ const Navbar = () => {
                       <Heart size={15} /> Wishlist
                     </Link>
                     <div className="border-t border-border my-1" />
-                    <p className="px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Switch Role</p>
-                    <button onClick={() => { switchRole("buyer"); setAccountOpen(false); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm hover:bg-secondary transition-colors">
-                      <User size={15} /> Buyer
-                    </button>
-                    <button onClick={() => { switchRole("seller"); setAccountOpen(false); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm hover:bg-secondary transition-colors">
-                      <Store size={15} /> Seller
-                    </button>
-                    <button onClick={() => { switchRole("admin"); setAccountOpen(false); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm hover:bg-secondary transition-colors">
-                      <Shield size={15} /> Admin
-                    </button>
-                    <div className="border-t border-border my-1" />
                     <button onClick={() => { logout(); setAccountOpen(false); }} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors">
                       <LogOut size={15} /> Sign Out
                     </button>

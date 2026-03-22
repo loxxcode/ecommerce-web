@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.PROD === 'true' 
+  ? 'https://ecommerce-web-f6k7.onrender.com/api'
+  : 'http://localhost:5000/api';
 
 // Generic API request function
 const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
