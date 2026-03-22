@@ -52,8 +52,20 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ecommerce')
-  .then(() => console.log('Connected to MongoDB'))
+const getMongoURI = () => {
+  // Use MongoDB Atlas for production, local MongoDB for development
+  if (process.env.NODE_ENV === 'production') {
+    return process.env.MONGODB_URI || 'mongodb+srv://loxx-dev:<db_password>@cluster0.bqlovfb.mongodb.net/?appName=Cluster0';
+  } else {
+    return process.env.MONGODB_URI || 'mongodb://localhost:27017/ecommerce';
+  }
+};
+
+mongoose.connect(getMongoURI())
+  .then(() => {
+    console.log('Connected to MongoDB');
+    console.log(`Database: ${process.env.NODE_ENV === 'production' ? 'MongoDB Atlas' : 'Local MongoDB'}`);
+  })
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Routes
