@@ -60,7 +60,17 @@ router.post('/register', [
       user: user.toPublicJSON()
     });
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error('Registration error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      body: req.body,
+      env: {
+        NODE_ENV: process.env.NODE_ENV,
+        MONGODB_URI: process.env.MONGODB_URI ? 'SET' : 'NOT_SET',
+        JWT_SECRET: process.env.JWT_SECRET ? 'SET' : 'NOT_SET'
+      }
+    });
     res.status(500).json({ message: 'Server error during registration' });
   }
 });

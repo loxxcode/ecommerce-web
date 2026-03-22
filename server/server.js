@@ -96,8 +96,17 @@ mongoose.connect(getMongoURI())
   .then(() => {
     console.log('Connected to MongoDB');
     console.log(`Database: ${process.env.NODE_ENV === 'production' ? 'MongoDB Atlas' : 'Local MongoDB'}`);
+    console.log(`URI: ${getMongoURI().replace(/\/\/[^@]+@/, '//***:***@')}`); // Hide credentials
   })
-  .catch((err) => console.error('MongoDB connection error:', err));
+  .catch((err) => {
+    console.error('MongoDB connection error details:', {
+      message: err.message,
+      name: err.name,
+      env: process.env.NODE_ENV,
+      uriProvided: !!process.env.MONGODB_URI
+    });
+    process.exit(1);
+  });
 
 // Routes
 app.use('/api/auth', authRoutes);
