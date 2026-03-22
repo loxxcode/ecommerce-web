@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.PROD === 'true' 
+const API_BASE_URL = import.meta.env.PROD 
   ? 'https://ecommerce-web-f6k7.onrender.com/api'
   : 'http://localhost:5000/api';
 
