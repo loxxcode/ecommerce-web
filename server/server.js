@@ -42,7 +42,38 @@ app.use(helmet());
 app.use(limiter);
 app.use(morgan('combined'));
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Allowed origins for different environments
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:8080',
+      'https://ecommerce-web-beta-virid.vercel.app',
+      'https://ecommerce-web-f6k7.onrender.com'
+    ];
+    
+    if (process.env.NODE_ENV === 'production') {
+      // In production, allow the specific deployed frontend
+      if (origin === 'https://ecommerce-web-beta-virid.vercel.app' || 
+          origin === 'https://ecommerce-web-f6k7.onrender.com') {
+        return callback(null, true);
+      }
+    } else {
+      // In development, allow localhost origins
+      if (origin.startsWith('http://localhost:')) {
+        return callback(null, true);
+      }
+    }
+    
+    // Check against allowed origins list
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
